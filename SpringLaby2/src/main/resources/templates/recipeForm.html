@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formularz Przepisu</title>
+</head>
+<body>
+<h1 th:if="${recipe.id == null}">Dodaj Nowy Przepis</h1>
+<h1 th:if="${recipe.id != null}">Edytuj Przepis</h1>
+
+<form th:object="${recipe}" th:action="@{/recipe/save}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <label for="name">Nazwa:</label>
+    <input type="text" id="name" name="name" th:field="*{name}"><br><br>
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    <label for="author">Autor:</label>
+    <input type="text" id="author" name="author" th:field="*{author}" ><br><br>
+    <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
+
+    <label for="categoryDetail">Kategoria:</label>
+    <select id="categoryDetail" name="categoryDetail">
+        <option value="">Wybierz kategorię</option>
+        <option th:each="cat : ${categories}"
+                th:value="${cat.id}"
+                th:text="${cat.name}"
+                th:selected="${recipe.categoryDetail != null and recipe.categoryDetail.id == cat.id}">
+        </option>
+    </select><br><br>
+
+    <label for="difficulty">Trudność:</label>
+    <input type="text" step="0.1" id="difficulty" name="difficulty" th:field="*{difficulty}" ><br><br>
+    <p th:if="${#fields.hasErrors('difficulty')}" th:errors="*{difficulty}"></p>
+    <label for="releaseDate">Data Dodania:</label>
+    <input type="text" id="releaseDate" name="releaseDate" th:field="*{releaseDate}" ><br><br>
+    <p th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></p>
+
+    <label for="isVegan">Wegańskie:</label>
+    <input type="checkbox" id="isVegan" name="isVegan" th:field="*{vegan}"><br><br>
+
+    <button type="submit">Zapisz</button>
+</form>
+
+<a th:href="@{/recipe/showList}">Powrót do Listy</a>
+</body>
+</html>

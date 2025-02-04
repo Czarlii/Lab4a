@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Błąd 403 - Brak dostępu</title>
+</head>
+<body>
+<div>
+    <h1>403 - Odmowa dostępu</h1>
+    <div>
+        Nie masz odpowiednich uprawnień, aby uzyskać dostęp do tej strony.
+    </div>
+    <div>
+        <a th:href="@{/}">Powrót do strony głównej</a>
+        <a th:href="@{/recipe/showList}">Lista przepisów</a>
+    </div>
+</div>
+</body>
+</html>

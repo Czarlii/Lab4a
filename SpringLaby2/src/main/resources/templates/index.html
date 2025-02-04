@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <title>Strona Główna</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+  Witaj, <span sec:authentication="name"/>!
+  Twoje role:
+  <span th:each="role: ${#authentication.getAuthorities()}">
+            <span th:text="${role}"/>
+        </span>
+  <form th:action="@{/logout}" method="post">
+    <button type="submit">Wyloguj</button>
+  </form>
+</div>
+
+<div sec:authorize="!isAuthenticated()">
+  <a th:href="@{/login}">Zaloguj</a>
+</div>
+
+<h1>Strona tytułowa</h1>
+<p><a th:href="@{/recipe/showList}">Pokaż listę!</a></p>
+</body>
+</html>

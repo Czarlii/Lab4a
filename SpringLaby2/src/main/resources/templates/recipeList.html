@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Przepisów</title>
+</head>
+<body>
+<h1>Lista Przepisów</h1>
+
+<table border='1'>
+    <thead>
+    <tr>
+        <th>Nazwa</th>
+        <th>Autor</th>
+        <th>Kategoria</th>
+        <th>Stopień trudności</th>
+        <th>Data dodania</th>
+        <th>Wegańskie</th>
+    </tr>
+    </thead>
+
+
+    <tbody>
+    <tr th:each="recipe : ${recipes}" th:object="${recipe}">
+        <td th:text="*{name}"></td>
+        <td th:text="*{author}"></td>
+        <td th:text="*{categoryDetail.name}"></td>
+        <td th:text="*{difficulty}"></td>
+        <td th:text="*{releaseDate}"></td>
+        <td th:text="*{vegan} ? 'Tak' : 'Nie'">"></td>
+        <td>
+            <div sec:authorize="hasRole('USER')">
+                <a th:href="@{/recipe/details/{id}(id=${recipe.id})}">Szczegóły</a>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/recipe/edit(id=${recipe.id})}">Edytuj</a>
+                <a th:href="@{/recipe/delete/{id}(id=${recipe.id})}">Usuń</a>
+            </div>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(recipes)}">
+        <td colspan = "6">Brak danych</td>
+    </tr>
+    </tbody>
+</table>
+
+<p><a th:href="@{/}">Powrót</a></p>
+<div sec:authorize="hasRole('ADMIN')">
+    <p><a th:href="@{/recipe/add}">Dodaj Nowy</a></p>
+</div>
+</body>
+</html>
